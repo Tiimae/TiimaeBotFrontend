@@ -1,5 +1,6 @@
 package Tiimae.TiimaeBot;
 
+import Tiimae.TiimaeBot.listeners.OnButtonListener;
 import Tiimae.TiimaeBot.listeners.OnMessageListerner;
 import Tiimae.TiimaeBot.listeners.OnReadyListener;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -35,6 +36,7 @@ public class TiimaeBot {
                 .setChunkingFilter(ChunkingFilter.ALL)
                 .addEventListeners(new OnReadyListener())
                 .addEventListeners(new OnMessageListerner())
+                .addEventListeners(new OnButtonListener())
                 .setActivity(Activity.watching("Yo Mama"))
                 .build();
     }

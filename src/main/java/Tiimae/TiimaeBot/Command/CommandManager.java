@@ -1,5 +1,6 @@
 package Tiimae.TiimaeBot.Command;
 
+import Tiimae.TiimaeBot.Command.commands.admin.server.CreateSettingCommand;
 import Tiimae.TiimaeBot.Command.commands.help.HelpCommand;
 import Tiimae.TiimaeBot.Command.commands.xp.LeaderboarcCommand;
 import Tiimae.TiimaeBot.Command.commands.xp.LevelCommand;
@@ -19,6 +20,9 @@ public class CommandManager {
         // help commands
         addCommand(new HelpCommand(this));
 
+        //admin commands
+        addCommand(new CreateSettingCommand());
+
         // xp commands
         addCommand(new LevelCommand());
         addCommand(new LeaderboarcCommand());
@@ -36,7 +40,7 @@ public class CommandManager {
 
     @Nullable
     public ICommand getCommand(String search) {
-        String searchLower = search.toLowerCase();
+        String searchLower = search;
 
         for (ICommand cmd : this.commands) {
             if (cmd.getName().equals(searchLower) || cmd.getAliases().contains(searchLower)) {
