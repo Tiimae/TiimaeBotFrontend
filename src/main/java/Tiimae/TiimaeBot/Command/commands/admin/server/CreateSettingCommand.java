@@ -1,30 +1,60 @@
 package Tiimae.TiimaeBot.Command.commands.admin.server;
 
-import Tiimae.TiimaeBot.ButtonEnum;
+import Tiimae.TiimaeBot.controllers.commands.SettingController;
 import Tiimae.TiimaeBot.Command.CommandContext;
 import Tiimae.TiimaeBot.Command.ICommand;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.channel.Channel;
+import Tiimae.TiimaeBot.service.SettingsService;
+import kong.unirest.json.JSONArray;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.ItemComponent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 import java.text.ParseException;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateSettingCommand implements ICommand {
     @Override
     public void handle(CommandContext ctx) throws ParseException {
 
+        SettingController settingController = new SettingController();
+        final SettingsService settingsService = new SettingsService();
         final TextChannel channel = (TextChannel) ctx.getEvent().getChannel();
+        final List<String> args = ctx.getArgs();
+        final JSONArray allGuildSettings = settingController.getAllGuildSettings(ctx.getGuild().getIdLong());
+        final ArrayList<Button> buttons = settingsService.filterAllButtons(allGuildSettings);
 
-        final MessageCreateBuilder builder = new MessageCreateBuilder()
-                .addActionRow(Button.primary(ButtonEnum.ADDXPBUTTON.name(), "Add Xp Channel"));
+        if (args.isEmpty()) {
+            channel.sendMessage("You must give a channel or role id").queue();
+            return;
+        }
 
-        channel.sendMessage(builder.build()).queue();
+        boolean founded = false;
+
+        for (TextChannel textChannel : ctx.getGuild().getTextChannels()) {
+            if (textChannel.getId().equals(args.get(0))) {
+                founded = true;
+                break;
+            }
+        }
+
+        if (!founded) {
+            for (Role role : ctx.getGuild().getRoles()) {
+                if (role.getId().equals(args.get(0))) {
+                    founded = true;
+                    break;
+                }
+            }
+        }
+
+        if (founded && !buttons.isEmpty()) {
+            final MessageCreateBuilder message = settingsService.createMessage(buttons, args.get(0));
+
+            channel.sendMessage(message.build()).queue();
+        } else {
+            channel.sendMessage("This id is not a role or a channel").queue();
+        }
     }
 
     @Override
@@ -36,4 +66,6 @@ public class CreateSettingCommand implements ICommand {
     public String getHelp() {
         return null;
     }
+
+
 }
