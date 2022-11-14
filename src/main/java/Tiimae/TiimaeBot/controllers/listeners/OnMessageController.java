@@ -11,10 +11,12 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unirest.shaded.com.google.gson.JsonNull;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class OnMessageController {
 
@@ -25,6 +27,16 @@ public class OnMessageController {
         final GetRequest getRequest = ApiCallServices.getInstance().get("setting/key/" + guildId + "/prefix");
 
         return getRequest.asJson().getBody().getObject().getJSONObject("payload").getString("value");
+    }
+
+    public String getKey(long guildId, String key) {
+        final GetRequest getRequest = ApiCallServices.getInstance().get("setting/key/" + guildId + "/" + key.toLowerCase(Locale.ROOT));
+
+        if (getRequest.asJson().getBody().getObject().get("payload") != null) {
+            return getRequest.asJson().getBody().getObject().getJSONObject("payload").getString("value");
+        }
+
+        return getRequest.asJson().getBody().getObject().getString("message");
     }
 
     public Xp getUserXp(User user, Guild guild) throws ParseException {

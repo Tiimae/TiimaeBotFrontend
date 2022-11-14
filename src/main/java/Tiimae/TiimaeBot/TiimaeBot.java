@@ -29,7 +29,8 @@ public class TiimaeBot {
                         GatewayIntent.GUILD_MESSAGES,
                         GatewayIntent.GUILD_VOICE_STATES,
                         GatewayIntent.GUILD_PRESENCES,
-                        GatewayIntent.MESSAGE_CONTENT
+                        GatewayIntent.MESSAGE_CONTENT,
+                        GatewayIntent.GUILD_EMOJIS_AND_STICKERS
                 )
                 .enableCache(CacheFlag.VOICE_STATE, CacheFlag.ACTIVITY)
                 .setMemberCachePolicy(MemberCachePolicy.ALL)

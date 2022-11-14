@@ -4,6 +4,8 @@ import Tiimae.TiimaeBot.enums.ButtonEnum;
 import Tiimae.TiimaeBot.enums.SettingKeyEnum;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
@@ -66,21 +68,19 @@ public class SettingsService {
         final MessageCreateBuilder builder = new MessageCreateBuilder()
                 .addContent(String.format("For what kinda Channel/Role is this ID: %s", id));
 
-        if (buttons.size() > 5) {
-            builder.addActionRow(buttons.get(0), buttons.get(1), buttons.get(2), buttons.get(3), buttons.get(4));
-            if (buttons.size() >= 10) {
-                builder.addActionRow(buttons.get(5), buttons.get(6), buttons.get(7), buttons.get(8), buttons.get(9));
-            } else {
-                if (buttons.size() == 6) {
-                    builder.addActionRow(buttons.get(5));
-                } else if (buttons.size() == 7) {
-                    builder.addActionRow(buttons.get(5), buttons.get(6));
-                } else if (buttons.size() == 8) {
-                    builder.addActionRow(buttons.get(5), buttons.get(6), buttons.get(7));
-                } else if (buttons.size() == 9) {
-                    builder.addActionRow(buttons.get(5), buttons.get(6), buttons.get(7), buttons.get(8));
+        while (buttons.size() > 0) {
+            ArrayList<Button> buttonsToAdd = new ArrayList<>();
+
+            if (buttons.size() > 5) {
+                for (int i = 0; i < 5; i++) {
+                    buttonsToAdd.add(buttons.get(i));
                 }
+            } else {
+                buttonsToAdd.addAll(buttons);
             }
+
+            builder.addActionRow(buttonsToAdd);
+            buttons.removeAll(buttonsToAdd);
         }
 
         return builder;

@@ -64,8 +64,8 @@ public class CreateSettingCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return null;
+        return "Create a new channel/role for a specific action \n" +
+                "Usage: `<your-prefix>create-setting <channel/role id>`";
     }
-
 
 }

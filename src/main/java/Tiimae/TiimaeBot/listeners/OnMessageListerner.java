@@ -2,11 +2,14 @@ package Tiimae.TiimaeBot.listeners;
 
 import Tiimae.TiimaeBot.Command.CommandManager;
 import Tiimae.TiimaeBot.Settings;
+import Tiimae.TiimaeBot.controllers.commands.SettingController;
 import Tiimae.TiimaeBot.controllers.listeners.OnMessageController;
+import Tiimae.TiimaeBot.enums.SettingKeyEnum;
 import Tiimae.TiimaeBot.model.Xp;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +61,15 @@ public class OnMessageListerner extends ListenerAdapter {
             cal.setTimeInMillis(now.getTime());
             cal.add(Calendar.SECOND, 60);
             final Timestamp newXPLock = new Timestamp(cal.getTime().getTime());
+
+            if (new_level > userXp.getLevel()) {
+                final String key = this.onMessageController.getKey(guild.getIdLong(), SettingKeyEnum.XPCHANNEL.name());
+                if (!key.equals("Key not found")) {
+                    final TextChannel textChannelById = guild.getTextChannelById(key);
+                    assert textChannelById != null;
+                    textChannelById.sendMessage(String.format("Congratz %s! You are promoted to level %s", author.getAsMention(), new_level)).queue();
+                }
+            }
 
             userXp.setLevel(new_level);
             userXp.setXp(new_xp);
