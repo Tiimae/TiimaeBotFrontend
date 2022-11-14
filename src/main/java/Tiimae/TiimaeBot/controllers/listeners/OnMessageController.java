@@ -60,13 +60,11 @@ public class OnMessageController {
     }
 
     public void updateXPTable(Xp xp) {
-        final HttpResponse<JsonNode> jsonNodeHttpResponse = ApiCallServices
+        ApiCallServices
                 .getInstance()
                 .put("xp/" + xp.getId())
                 .body(this.payloadServices.createXpPayload(xp))
                 .asJson();
-
-        LOGGER.info("Xp Table has been updated");
     }
 
 }

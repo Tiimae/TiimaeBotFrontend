@@ -22,4 +22,8 @@ public class SettingController {
         return null;
     }
 
+    public JSONArray getOneGuildSetting(long guildId, String setting) {
+        return null;
+    }
+
 }

@@ -35,7 +35,11 @@ public class HelpCommand implements ICommand {
             embedBuilder.setDescription(":spy:   **BotCommands for " + ctx.getGuild().getName() + ":**");
 
             for(ICommand iCommand : manager.getCommands()) {
-                embedBuilder.addField(new MessageEmbed.Field(String.format("%s%s", onMessageController.getPrefix(guildId), iCommand.getName()), iCommand.getHelp(), false));
+                embedBuilder.addField(new MessageEmbed.Field(
+                        String.format("%s%s", onMessageController.getPrefix(guildId), iCommand.getName()),
+                        iCommand.getHelp(),
+                        false
+                ));
             }
 
             channel.sendMessage("").setEmbeds(embedBuilder.build()).queue();
