@@ -1,7 +1,6 @@
 package Tiimae.TiimaeBot.button;
 
-import Tiimae.TiimaeBot.button.buttons.admin.add.AddLogChannelButton;
-import Tiimae.TiimaeBot.button.buttons.admin.add.AddXpChannelButton;
+import Tiimae.TiimaeBot.button.buttons.admin.add.*;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 import javax.annotation.Nullable;
@@ -15,8 +14,16 @@ public class ButtonManager {
 
     public ButtonManager() {
 
-        addButton(new AddXpChannelButton());
+        //Add Buttons
+        addButton(new AddBotCountChannelButton());
+        addButton(new AddLeaveChannelButton());
         addButton(new AddLogChannelButton());
+        addButton(new AddMemberCountChannelButton());
+        addButton(new AddMuteRoleButton());
+        addButton(new AddPrefixButton());
+        addButton(new AddWelcomeChannelButton());
+        addButton(new AddWelcomeRoleButton());
+        addButton(new AddXpChannelButton());
 
     }
 
