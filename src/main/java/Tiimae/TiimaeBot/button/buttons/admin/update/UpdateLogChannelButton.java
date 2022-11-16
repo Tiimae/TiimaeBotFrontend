@@ -17,6 +17,6 @@ public class UpdateLogChannelButton implements IButton {
 
     @Override
     public String getId() {
-        return ButtonEnum.UPDATEMUTEROLEBUTTON.name();
+        return ButtonEnum.UPDATELOGCHANNELBUTTON.name();
     }
 }

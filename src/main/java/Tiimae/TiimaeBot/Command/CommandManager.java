@@ -2,6 +2,7 @@ package Tiimae.TiimaeBot.Command;
 
 import Tiimae.TiimaeBot.Command.commands.admin.server.CreateSettingCommand;
 import Tiimae.TiimaeBot.Command.commands.admin.server.ShowSettingsCommand;
+import Tiimae.TiimaeBot.Command.commands.admin.server.UpdateSettingCommand;
 import Tiimae.TiimaeBot.Command.commands.help.HelpCommand;
 import Tiimae.TiimaeBot.Command.commands.xp.LeaderboarcCommand;
 import Tiimae.TiimaeBot.Command.commands.xp.LevelCommand;
@@ -24,6 +25,7 @@ public class CommandManager {
         //admin commands
         addCommand(new CreateSettingCommand());
         addCommand(new ShowSettingsCommand());
+        addCommand(new UpdateSettingCommand());
 
         // xp commands
         addCommand(new LevelCommand());

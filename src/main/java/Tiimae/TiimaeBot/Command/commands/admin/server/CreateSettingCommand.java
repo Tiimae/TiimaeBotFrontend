@@ -23,7 +23,7 @@ public class CreateSettingCommand implements ICommand {
         final TextChannel channel = (TextChannel) ctx.getEvent().getChannel();
         final List<String> args = ctx.getArgs();
         final JSONArray allGuildSettings = settingController.getAllGuildSettings(ctx.getGuild().getIdLong());
-        final ArrayList<Button> buttons = settingsService.filterAllButtons(allGuildSettings);
+        settingsService.filterAllCreateButtons(allGuildSettings);
 
         if (args.isEmpty()) {
             channel.sendMessage("You must give a channel or role id").queue();
@@ -48,8 +48,8 @@ public class CreateSettingCommand implements ICommand {
             }
         }
 
-        if (founded && !buttons.isEmpty()) {
-            final MessageCreateBuilder message = settingsService.createMessage(buttons, args.get(0));
+        if (founded && !settingsService.getCreateButtons().isEmpty()) {
+            final MessageCreateBuilder message = settingsService.createMessage(settingsService.getCreateButtons(), args.get(0));
 
             channel.sendMessage(message.build()).queue();
         } else {
