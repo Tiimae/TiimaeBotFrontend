@@ -12,19 +12,8 @@ import java.text.ParseException;
 public class AddWelcomeRoleButton implements IButton {
     @Override
     public void handle(ButtonContext event) throws ParseException {
-        SettingButtonController settingButtonController = new SettingButtonController();
-        final TextChannel channel = (TextChannel) event.getEvent().getChannel();
-
-        final String[] s = event.getEvent().getMessage().getContentRaw().split(" ");
-        settingButtonController.createGuildSettings(event.getEvent().getGuild().getId(), SettingKeyEnum.WELCOMEROLE.name(), s[s.length - 1]);
-        final long channelId = Long.parseLong(s[s.length - 1]);
-
-        event.getEvent().getMessage().delete().queue();
-
-        channel.sendMessage(String.format(
-                        "Log channel has been created on channel %s",
-                        event.getEvent().getGuild().getTextChannelById(channelId)))
-                .queue();
+        final SettingButtonController settingButtonController = new SettingButtonController();
+        settingButtonController.addSetting(SettingKeyEnum.WELCOMEROLE.name(), event);
 
         return;
     }
